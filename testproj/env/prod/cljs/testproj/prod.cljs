@@ -1,0 +1,7 @@
+(ns testproj.prod
+  (:require [testproj.core :as core]))
+
+;;ignore println statements in prod
+(set! *print-fn* (fn [& _]))
+
+(core/init!)
