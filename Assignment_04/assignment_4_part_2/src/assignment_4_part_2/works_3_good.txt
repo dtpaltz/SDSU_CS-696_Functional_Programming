@@ -1,0 +1,187 @@
+(ns assignment_4_part_2.core
+  (:require [reagent.core :as reagent :refer [atom]]))
+
+(enable-console-print!)
+
+(def base-state-stack (list '{:mode ":line" :figure-points [{:x 10 :y 200} {:x 150 :y 520}]}
+                            '{:mode ":circle" :figure-points [{:x 160 :y 160} {:x 120 :y 220}]}
+                            '{:mode ":rectangle" :figure-points [{:x 100 :y 320} {:x 300 :y 400}]}
+                            '{:mode ":none" :figure-points []}
+))
+
+(defonce app-db (reagent/atom {:state-stack base-state-stack
+                               :mouse-clicks []
+                               :drawing false
+							   :cursor {:x 0 :y 0}}))
+
+							   
+							   
+							   
+							   
+							   
+							   
+							   
+							   
+							   
+							   
+							   
+							   
+(defn can-undo? []
+  (and (> (count (:state-stack @app-db)) 1) (not (:drawing @app-db))))
+
+(defn set-drawing [v]
+  (swap! app-db assoc-in [:drawing] v))
+
+(defn current-state []
+  (first (:state-stack @app-db)))
+
+(defn clear-mouse-clicks []
+  (swap! app-db assoc-in [:mouse-clicks] []))
+  
+(defn stack-mode-state [new-mode]
+  (swap! app-db assoc-in [:state-stack] (conj (:state-stack @app-db) {:mode new-mode :figure-points []}))
+  (clear-mouse-clicks)
+  (set-drawing false))
+
+(defn stack-figure-state [new-figure]
+  (swap! app-db assoc-in [:state-stack] (conj (:state-stack @app-db) {:mode ((current-state) :mode) :figure-points new-figure}))
+  (clear-mouse-clicks)
+  (set-drawing false))
+
+(defn undo []
+  (swap! app-db assoc-in [:state-stack] (rest (:state-stack @app-db)))
+  (clear-mouse-clicks))
+
+(defn clear []
+  (swap! app-db assoc-in [:state-stack] base-state-stack)
+  (clear-mouse-clicks))
+    
+(defn save-click [mx my]
+  (swap! app-db assoc-in [:mouse-clicks] (conj (:mouse-clicks @app-db) {:x mx :y my})))
+
+(defn process-click [mx my]
+  (when-not (= ((current-state) :mode) ":none")
+	(save-click mx my)))
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+(defn draw-line [[{p1x :x, p1y :y} {p2x :x, p2y :y}]]
+  [:line {:x1 p1x :y1 p1y :x2 p2x :y2 p2y :stroke "blue"}])
+
+(defn point-distance [[{p1x :x, p1y :y} {p2x :x, p2y :y}]]
+  (let [deltax (- p1x p2x)
+        deltay (- p1y p2y)]
+    (Math/sqrt (+ (* deltax deltax)(* deltay deltay)))))
+
+(defn draw-circle [[{p1x :x, p1y :y} _ :as points]]
+  [:circle {:r (point-distance points) :cx p1x :cy p1y :stroke "red" :fill :none}])
+
+(defn draw-rectangle [[{p1x :x, p1y :y} {p2x :x, p2y :y}]]
+  (let [rectW (Math/abs (- p1x p2x)) rectH (Math/abs (- p1y p2y))]
+    (cond
+      (and (< p1x p2x) (< p1y p2y))
+        [:rect {:x p1x :y p1y :width rectW :height rectH :stroke "green" :fill :none}]
+  	  (and (> p1x p2x) (> p1y p2y))
+        [:rect {:x p2x :y p2y :width rectW :height rectH :stroke "green" :fill :none}]
+	  (> p1x p2x)
+  	    [:rect {:x p2x :y p1y :width rectW :height rectH :stroke "green" :fill :none}]
+	  (> p1y p2y)
+  	    [:rect {:x p1x :y p2y :width rectW :height rectH :stroke "green" :fill :none}])))
+
+(defmulti draw-figure (fn [figure-state] (:mode figure-state)))
+(defmethod draw-figure ":line" [figure-state] (draw-line (figure-state :figure-points)))
+(defmethod draw-figure ":circle" [figure-state] (draw-circle (figure-state :figure-points)))
+(defmethod draw-figure ":rectangle" [figure-state] (draw-rectangle (figure-state :figure-points)))
+
+(defn figure-preview []
+  (when (= (count (:mouse-clicks @app-db)) 1)
+    {:mode ((current-state) :mode) :figure-points [(first (:mouse-clicks @app-db)) (:cursor @app-db)]}))
+
+(defn draw-graphics []
+  (let [fig-states (reverse (remove nil? (conj (filter #(not-empty (% :figure-points)) (:state-stack @app-db)) (figure-preview))))]
+    (for [f fig-states]
+      (draw-figure f))))
+
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+(defn main []
+  [:div#main {:style {:display "inline-block"}}
+    (into
+      [:svg#draw-area {:width 600 :height 600 :style {:position :fixed :top 0 :left 0 :border "1px solid red"}
+                       :on-mouse-move #(swap! app-db assoc-in [:cursor] {:x (.-clientX %) :y (.-clientY %)})
+  				       :on-click #(process-click (.-clientX %) (.-clientY %))}]
+	  (draw-graphics))
+  
+      [:div#palette {:style {:margin-left 650}}
+        [:select {:on-change #(stack-mode-state (-> % .-target .-value)) :title "Select Draw Mode" :value ((current-state) :mode) :disabled (:drawing @app-db)}
+          [:option {:value ":none"} "None"]
+          [:option {:value ":line"} "Line"]
+          [:option {:value ":circle"} "Circle"]
+          [:option {:value ":rectangle"} "Rectangle"]]
+        [:button {:on-click #(undo) :style {:margin-left 25} :disabled (not (can-undo?))} "Undo"]
+        [:button {:on-click #(clear) :style {:margin-left 25} :disabled (not (can-undo?))} "Clear"]]
+  
+      [:div#info {:style {:margin-left 650 :margin-top 200}}
+        [:h1 "Assignment 4 - Part 2"]
+        [:h4 "Drawing = " (str (:drawing @app-db))]
+        [:h4 "Cursor = " (str (:cursor @app-db))]
+        [:h4 "States = " (count (:state-stack @app-db))]
+        [:h4 "Clicks = " (count (:mouse-clicks @app-db))]
+        [:h4 "Mode = " (:mode (current-state))]]])
+
+(reagent/render-component [main]
+                          (. js/document (getElementById "app")))
+
+(defn on-js-reload []
+  ;; optionally touch your app-state to force rerendering depending on
+  ;; your application
+  ;; (swap! app-state update-in [:__figwheel_counter] inc)
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
