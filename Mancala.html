@@ -1,0 +1,59 @@
+<html>
+	<head>
+		<title>Mancala</title>
+	</head>
+	<body>
+		<div style="margin: 0px; border: 1px solid #000000; display: inline-block;">
+			<svg width="1000" height="300" style="stroke: black; stroke-width: 1">
+				<ellipse cx="60" cy="140" rx="50" ry="120" style="fill: red; fill-opacity: 0.4; stroke: black; stroke-width: 2" />
+				<ellipse cx="900" cy="140" rx="50" ry="120" style="fill: blue; stroke: black; fill-opacity: 0.4; stroke-width: 2" />
+				
+				<text x="50" y="140" fill="black">NN</text>
+				<text x="890" y="140" fill="black">NN</text>
+				
+				<circle cx="180" cy="60" r="50" fill="red" stroke="black" stroke-width="2" style="fill-opacity: 0.4;" />
+				<circle cx="300" cy="60" r="50" fill="red" stroke="black" stroke-width="2" style="fill-opacity: 0.4;" />
+				<circle cx="420" cy="60" r="50" fill="red" stroke="black" stroke-width="2" style="fill-opacity: 0.4;" />
+				<circle cx="540" cy="60" r="50" fill="red" stroke="black" stroke-width="2" style="fill-opacity: 0.4;" />
+				<circle cx="660" cy="60" r="50" fill="red" stroke="black" stroke-width="2" style="fill-opacity: 0.4;" />
+				<circle cx="780" cy="60" r="50" fill="red" stroke="black" stroke-width="2" style="fill-opacity: 0.4;" />
+				
+				<text x="170" y="65" fill="black">NN</text>
+				<text x="290" y="65" fill="black">NN</text>
+				<text x="410" y="65" fill="black">NN</text>
+				<text x="530" y="65" fill="black">NN</text>
+				<text x="650" y="65" fill="black">NN</text>
+				<text x="770" y="65" fill="black">NN</text>
+				
+				<circle cx="180" cy="220" r="50" fill="blue" stroke="black" stroke-width="2" style="fill-opacity: 0.4;" />
+				<circle cx="300" cy="220" r="50" fill="blue" stroke="black" stroke-width="2" style="fill-opacity: 0.4;" />
+				<circle cx="420" cy="220" r="50" fill="blue" stroke="black" stroke-width="2" style="fill-opacity: 0.4;" />
+				<circle cx="540" cy="220" r="50" fill="blue" stroke="black" stroke-width="2" style="fill-opacity: 0.4;" />
+				<circle cx="660" cy="220" r="50" fill="blue" stroke="black" stroke-width="2" style="fill-opacity: 0.4;" />
+				<circle cx="780" cy="220" r="50" fill="blue" stroke="black" stroke-width="2" style="fill-opacity: 0.4;" />
+				
+				<text x="170" y="225" fill="black">NN</text>
+				<text x="290" y="225" fill="black">NN</text>
+				<text x="410" y="225" fill="black">NN</text>
+				<text x="530" y="225" fill="black">NN</text>
+				<text x="650" y="225" fill="black">NN</text>
+				<text x="770" y="225" fill="black">NN</text>
+			</svg>
+		</div>
+		
+		<div data-role="main" class="ui-content">
+			<form method="post" action="demoform.asp">
+				<label for="user_lic">Number of players:</label>
+				<input id="user_lic" type="number" min="0" max="2" step="1" value ="0"/>
+				<br />
+				<label for="ai1_difficulty">AI 1 Difficulty:</label>
+				<input type="range" name="ai1_difficulty" id="p1_difficulty" value="1" min="1" max="10">
+				<br />
+				<label for="ai2_difficulty">AI 2 Difficulty:</label>
+				<input type="range" name="ai2_difficulty" id="p2_difficulty" value="1" min="1" max="10">
+				<br />
+				<label>Player turn: BLUE</label>
+			</form>
+		</div>
+	</body>
+</html>

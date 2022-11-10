@@ -1,0 +1,44 @@
+pieces common to functional programming
+
+let
+threading macro
+fors
+loops
+do sequences
+map
+filters
+reduce
+
+vectors
+lists
+true and false
+restructuring
+multi-methods
+
+atoms
+references
+vars
+agents
+
+design patterns
+
+meta-data
+
+macros!!! (don't write them)
+
+functional reactive programming
+
+reagent
+- components, what is it
+- mvc
+
+reframe
+- how is it different?
+- big r atom
+
+clojurescript
+- differences
+
+schemes
+- why important
+
