@@ -1,0 +1,4 @@
+- change :as reagent to :as r
+
+- remove :figure-points from mode-only-changing states
+

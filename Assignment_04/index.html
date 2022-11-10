@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+
+<div style="margin: 25px;">
+	<select name="mode">
+		<option value="none">None</option>
+		<option value="line">Line</option>
+		<option value="circle">Circle</option>
+		<option value="rectangle">Rectangle</option>
+	</select>
+	<button type="button" disabled>Undo</button>
+	<button type="button">Clear</button>
+</div>
+
+<div style="margin: 25px; border: 1px solid #000000; display: inline-block;">
+	<svg width="500" height="500">
+		<circle cx="50" cy="50" r="40" stroke="green" stroke-width="2" fill="none" />
+		
+		<line x1="400" y1="10" x2="490" y2="400" style="stroke:red; stroke-width:2" />
+		
+		<rect x="50" y="200" width="150" height="150" style="stroke:blue; stroke-width:2; fill:none;" />
+	</svg>
+</div>
+
+<p>
+Initial state: {:mode :none :figure nil}
+</p>
+
+<p>
+Mode change: {:mode :circle :figure nil}
+</p>
+
+<p>
+Figure change: {:mode :circle :figure {:x1 n :y1 n :x2 n :y2 n}}
+</p>
+
+</body>
+</html> 
