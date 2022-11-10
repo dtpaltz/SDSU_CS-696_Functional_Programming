@@ -1,0 +1,4 @@
+down
+move 40
+turn 30
+up

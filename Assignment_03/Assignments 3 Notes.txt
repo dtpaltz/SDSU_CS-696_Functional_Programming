@@ -1,0 +1,124 @@
+Run in intelliJ
+
+(require '[assignment_3.core :as c])
+
+--------------------------------------------------------------------
+
+(defn draw-moves [{}]
+
+
+
+
+
+
+x = cos(<angle of pen in radians>) * d;
+y = sin(<angle of pen in radians>) * d;
+
+
+draw-line(<pen X>, <pen Y>, x, y);
+
+
+
+
+; update pen state somewhere
+<pen X> = x;
+<pen Y> = y;
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------
+
+
+
+Here's how you actually use the trig functions in Processing:
+
+  float x = cos(radians(angle)) * radius;
+
+  float y = sin(radians(angle)) * radius;
+
+
+angle is a value between 0 and 359
+radius gives you the length of the line
+
+x and y is the end point of your line (outside of the circle).
+
+now say
+line(originX,originY,x,y);
+
+originX and Y being your center, eg
+originX=width/2;
+
+
+
+
+----------------------------------
+
+1
+read move program script, populate pen-move-collection
+
+2
+analize pen-move-collection and initialize start state
+
+
+
+
+
+
+; pen up
+{:move-type 0 :text ""}
+
+
+; pen down
+{:move-type 1}
+
+
+; move
+{:move-type 2 :distance 50}
+
+
+; turn
+{:move-type 3 :offset 30}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
